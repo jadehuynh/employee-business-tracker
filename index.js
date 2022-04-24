@@ -2,7 +2,7 @@
 const inquirer = require('inquirer');
 require('dotenv').config();
 // const queryFunctions = require('./queryFunctions')
-const { allDepts } = require('./queryFunctions')
+const { allDepts } = require('./unit12-hw/queryFunctions')
 // Connect to database
 // const db = mysql.createConnection(
 //     {
