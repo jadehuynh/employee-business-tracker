@@ -12,7 +12,7 @@ INSERT INTO employee_role_data(id, title, salary, department_id)
         (2, 'Number Two', '10000000', 2),
         (3, 'Pet', '200000', 01),
         (3, 'Son', '200000', 01),
-        (4, 'Master Ruler', '200000', 01),
+        (4, 'Chief of Staff', '200000', 01),
         (5, 'Good Guy', '10.50', 05);
 
 INSERT INTO employee_info_data(id, first_name, last_name, role_id, manager_id)
