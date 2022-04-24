@@ -1,24 +1,27 @@
 INSERT INTO department(id, department_name) 
-    VALUES (1,'World Domination'),
-        (2,'Administration'),
-        (3,'Emotional Support'),
-        (3,'Family'),
-        (4,'Fires Lasers'),
-        (5,'Hero Status');
+    VALUES (1,'Floral Shop'),
+        (2,'Soil'),
+        (3,'Flower Pots'),
+        (3,'Flower Vases'),
+        (4,'Flowers'),
+        (5,'Shrubs')
+        PRIMARY KEY id;
 
 
 INSERT INTO employee_role_data(id, title, salary, department_id)
-    VALUES (1, 'Master Ruler', '20000000', 01),
-        (2, 'Number Two', '10000000', 2),
-        (3, 'Pet', '200000', 01),
-        (3, 'Son', '200000', 01),
-        (4, 'Chief of Staff', '200000', 01),
-        (5, 'Good Guy', '10.50', 05);
+    VALUES (15, 'Manager', '60000', 1),
+        (25, 'Gardener', '40000', 2),
+        (35, 'Ceramicist', '20000', 3),
+        (35, 'Designer', '20000', 3),
+        (45, 'Florist', '25000', 4),
+        (55, 'Landscaper', '40000', 5)
+        FOREIGN KEY () REFERENCES ();
 
 INSERT INTO employee_info_data(id, first_name, last_name, role_id, manager_id)
-    VALUES (1, 'Doctor', 'Evil' '01', false),
-        (2, 'Number', 'Two' '02', true),
-        (3, 'Mini', 'Me' '01', true,
-        (3, 'Scott', 'Evil' '01', true),
-        (4, 'Frau', 'Farbissina' '04', true),
-        (5, 'Austin', 'Powers' '05', false);
+    VALUES (1, 'Rose', 'Biggins' '15', NULL),
+        (2, 'Willow', 'Colbert' '25', 'Rose Biggins'),
+        (3, 'Piper', 'Pots' '35', 'Rose Biggins',
+        (3, 'Iris', 'Oakley' '35', 'Rose Biggins'),
+        (4, 'Lily', 'Waters' '45', NULL),
+        (5, 'Forest', 'Greene' '05', ''),
+         FOREIGN KEY () REFERENCES ();
