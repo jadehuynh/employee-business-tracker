@@ -31,29 +31,71 @@ const db = mysql.createConnection(
         .then(userChoice => {
             console.log(userChoice.userChoice)
             if(userChoice.userChoice === "Add Employee to Roster") {
+                function addEmployeeInfo() {
+                    db.query('SELECT * FROM department', function (err, results) {
+                            console.log(results);
+                           
+                            defaultQuestions();
+                        });
+                    }
                 addEmployeeInfo()
             }
             else if(userChoice.userChoice === "View Employee Roster") {
+                function viewEmployees() {
+                    db.query('SELECT * FROM employee_role_data JOIN employee_info_data ON department.id', function (err, results) {
+                            console.log(results);
+                          
+                            defaultQuestions();
+                        });
+                    }
                 viewEmployees()
             }
             else if(userChoice.userChoice === "Update an Employee Role") {
+                function updateEmployees() {
+                    db.query('SELECT * FROM department', function (err, results) {
+                            console.log(results);
+                            
+                            defaultQuestions();
+                        });
+                    }
                 updateEmployees()
     
             }else if(userChoice.userChoice === "View all Roles in Department") {
+                function viewRoles() {
+                    db.query('SELECT * FROM employee_role_data', function (err, results) {
+                            console.log(results);
+                           
+                            defaultQuestions();
+                        });
+                    }
                 viewRoles()
                 
             }else if(userChoice.userChoice === "Add a Role to Department") {
+                function addRole() {
+                    db.query('SELECT * FROM department', function (err, results) {
+                            console.log(results);
+                          
+                            defaultQuestions();
+                        });
+                    }
                 addRole()
             }else if(userChoice.userChoice === "View all Departments") {
                 function viewDepartment() {
                     db.query('SELECT * FROM department', function (err, results) {
                             console.log(results);
-                            // console.log(viewDepartment);
+                          
                             defaultQuestions();
                         });
                     }
                 viewDepartment()
             }else if(userChoice.userChoice === "Add a New Department") {
+                function addDepartment() {
+                    db.query('SELECT * FROM department', function (err, results) {
+                            console.log(results);
+                            
+                            defaultQuestions();
+                        });
+                    }
                 addDepartment()
             }else(userChoice.userChoice === "Quit") 
                 return
