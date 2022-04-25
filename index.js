@@ -42,7 +42,9 @@ const db = mysql.createConnection(
             }
             else if(userChoice.userChoice === "View Employee Roster") {
                 function viewEmployees() {
-                    db.query('SELECT * FROM employee_role_data JOIN employee_info_data ON department.id', function (err, results) {
+                    var employRoster = "SELECT * FROM employee_role_data JOIN employee_info_data ON employee_role_data.employee_info_data department.id"
+                    
+                    db.query(employRoster, function (err, results) {
                             console.log(results);
                           
                             defaultQuestions();
