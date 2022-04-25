@@ -7,7 +7,7 @@ const db = mysql.createConnection(
         host: 'localhost',
         // MySQL username,
         user: 'root',
-        password: 'root',
+        password: 'rootroot',
         database: 'green_thumbs'
     },
     console.log(`Connected to the database.`));
@@ -48,8 +48,8 @@ const db = mysql.createConnection(
                 function viewDepartment() {
                     db.query('SELECT * FROM department', function (err, results) {
                             console.log(results);
-                            console.log(viewDepartment);
-                            // defaultQuestions();
+                            // console.log(viewDepartment);
+                            defaultQuestions();
                         });
                     }
                 viewDepartment()
