@@ -1,6 +1,7 @@
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
 const fs = require('fs');
+const consoleTable = require('console.table')
 
 const db = mysql.createConnection(
     {
@@ -22,7 +23,7 @@ const db = mysql.createConnection(
                     "Add Employee to Roster", 
                     "Update an Employee Role", 
                     "View all Roles in Department", 
-                    "Add a Role to Department", 
+                    "Add a Role", 
                     "View all Departments", 
                     "Add a New Department", 
                     "Quit"]
@@ -31,22 +32,24 @@ const db = mysql.createConnection(
         .then(userChoice => {
             console.log(userChoice.userChoice)
             if(userChoice.userChoice === "Add Employee to Roster") {
+                addEmployeeRole();
+
                 function addEmployeeInfo() {
-                    db.query('SELECT * FROM department', function (err, results) {
-                            console.log(results);
-                           
-                            defaultQuestions();
-                        });
+                    db.query('INSERT INTO employee_role_data SET=? VALUE=?', function (err, results) {
+                        console.log(results);
+                        // res.json(results)
+                        defaultQuestions();
+                    });
                     }
                 addEmployeeInfo()
             }
             else if(userChoice.userChoice === "View Employee Roster") {
                 function viewEmployees() {
-                    var employRoster = "SELECT * FROM employee_role_data JOIN employee_info_data ON employee_role_data.employee_info_data department.id"
+                    // var employRoster = "SELECT * FROM employee_role_data JOIN employee_info_data ON employee_role_data.employee_info_data = department.id"
                     
-                    db.query(employRoster, function (err, results) {
+                    db.query('Select * from employee_role_data Join employee_info_data On employee_role_data.id = employee_info_data.role_id', function (err, results) {
                             console.log(results);
-                          
+                            console.log(viewEmployees)
                             defaultQuestions();
                         });
                     }
@@ -66,18 +69,17 @@ const db = mysql.createConnection(
                 function viewRoles() {
                     db.query('SELECT * FROM employee_role_data', function (err, results) {
                             console.log(results);
-                           
                             defaultQuestions();
                         });
                     }
                 viewRoles()
                 
-            }else if(userChoice.userChoice === "Add a Role to Department") {
+            }else if(userChoice.userChoice === "Add a Role") {
                 function addRole() {
-                    db.query('SELECT * FROM department', function (err, results) {
+
+                    db.query('INSERT INTO employee_role_data SET=? VALUE=?', function (err, results) {
                             console.log(results);
-                          
-                            defaultQuestions();
+                            addEmployeeRole();
                         });
                     }
                 addRole()
@@ -92,7 +94,7 @@ const db = mysql.createConnection(
                 viewDepartment()
             }else if(userChoice.userChoice === "Add a New Department") {
                 function addDepartment() {
-                    db.query('SELECT * FROM department', function (err, results) {
+                    db.query('INSERT INTO employee_role_data SET=? VALUE=?', function (err, results) {
                             console.log(results);
                             
                             defaultQuestions();
@@ -130,20 +132,20 @@ const db = mysql.createConnection(
                 name: 'last_name',
                 message: "What is the Employee last_name?"
     
+            },
+            {
+                type: 'input',
+                name: 'role_id',
+                message: "What is the Employee role_id?"
+    
+            },
+            {
+                type: "list",
+                name: 'manager_id',
+                message: "Who is the Manager of the Employee?",
+                choices: ["Rose Biggns", "Willow Colbert"]
+    
             }
-            // {
-            //     type: 'input',
-            //     name: 'role_id',
-            //     message: "What is the Employee role_id?"
-    
-            // },
-            // {
-            //     type: "list",
-            //     name: 'manager_id',
-            //     message: "Who is the Manager of the Employee?",
-            //     choices: ["Rose Biggns", "Willow Colbert"]
-    
-            // }
         ])
         .then(info = () =>{
             console.log(info)
@@ -151,7 +153,7 @@ const db = mysql.createConnection(
         )
     }
     
-    const addEmployeeRole = () => {
+    const addEmployeeRole = (data) => {
         return inquirer.prompt([
             {
                 type: 'input',
@@ -165,22 +167,29 @@ const db = mysql.createConnection(
                 message: "What is the salary of the Employee Role?"
     
             },
-            // {
-            //     type: 'input',
-            //     name: 'roledept',
-            //     message: "What is the department of the role"
+               
+            {
+                type: 'input',
+                name: 'roledept',
+                message: "What is the department of the role?"
     
-            // },
-            // {
-            //     type: "list",
-            //     name: 'manager_id',
-            //     message: "Who is the Manager of the Employee?",
-            //     choices: ["None",
-            //         "Rose Biggins",
-            //         "Willow Colbert"]
+            },
+            {
+                type: "list",
+                name: 'manager_id',
+                message: "Who is the Manager of the Employee?",
+                choices: ["None",
+                    "Rose Biggins",
+                    "Willow Colbert"]
     
-            // }
+            }
         ])
+        .then(info = () =>{
+            console.log(info)
+            return defaultQuestions()
+        }
+        )
+      
     }
     
     defaultQuestions();
