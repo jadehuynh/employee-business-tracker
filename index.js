@@ -32,20 +32,18 @@ const db = mysql.createConnection(
         .then(userChoice => {
             console.log(userChoice.userChoice)
             if(userChoice.userChoice === "Add Employee to Roster") {
-                addEmployeeRole();
-
-                function addEmployeeInfo() {
-                    db.query('INSERT INTO employee_role_data SET=? VALUE=?', function (err, results) {
-                        console.log(results);
-                        // res.json(results)
-                        defaultQuestions();
-                    });
-                    }
-                addEmployeeInfo()
+                 function addEmployee() {
+                        db.query('INSERT INTO employee_info_data SET=? VALUE=?', function (err, results) {
+                            console.log(results);
+                            addEmployeeInfo();
+                            // res.json(results)
+                            // defaultQuestions();
+                        });
+                }
+               addEmployee()
             }
             else if(userChoice.userChoice === "View Employee Roster") {
                 function viewEmployees() {
-                    // var employRoster = "SELECT * FROM employee_role_data JOIN employee_info_data ON employee_role_data.employee_info_data = department.id"
                     
                     db.query('Select * from employee_role_data Join employee_info_data On employee_role_data.id = employee_info_data.role_id', function (err, results) {
                             console.log(results);
@@ -57,10 +55,10 @@ const db = mysql.createConnection(
             }
             else if(userChoice.userChoice === "Update an Employee Role") {
                 function updateEmployees() {
-                    db.query('SELECT * FROM department', function (err, results) {
+                    db.query('UPDATE employee_role_data SET title=?, salary=?, department_id=?', function (err, results) {
                             console.log(results);
-                            
-                            defaultQuestions();
+                            addEmployeeRole();
+                            // defaultQuestions();
                         });
                     }
                 updateEmployees()
@@ -79,6 +77,7 @@ const db = mysql.createConnection(
 
                     db.query('INSERT INTO employee_role_data SET=? VALUE=?', function (err, results) {
                             console.log(results);
+                            // res.json(results);
                             addEmployeeRole();
                         });
                     }
@@ -93,14 +92,14 @@ const db = mysql.createConnection(
                     }
                 viewDepartment()
             }else if(userChoice.userChoice === "Add a New Department") {
-                function addDepartment() {
-                    db.query('INSERT INTO employee_role_data SET=? VALUE=?', function (err, results) {
+                function addDept() {
+                    db.query('INSERT INTO department SET=? VALUE=?', function (err, results) {
                             console.log(results);
-                            
-                            defaultQuestions();
+                            addDepartment()
+                            // defaultQuestions();
                         });
                     }
-                addDepartment()
+                addDept()
             }else(userChoice.userChoice === "Quit") 
                 return
             
@@ -117,6 +116,11 @@ const db = mysql.createConnection(
     
             }
         ])
+        .then(info = () =>{
+            console.log(info)
+            return defaultQuestions()
+        }
+        )
     }
     
     const addEmployeeInfo = () => {
@@ -149,11 +153,12 @@ const db = mysql.createConnection(
         ])
         .then(info = () =>{
             console.log(info)
+            return defaultQuestions()
         }
         )
     }
     
-    const addEmployeeRole = (data) => {
+    const addEmployeeRole = () => {
         return inquirer.prompt([
             {
                 type: 'input',
