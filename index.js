@@ -2,6 +2,7 @@ const mysql = require('mysql2');
 const inquirer = require('inquirer');
 const fs = require('fs');
 const consoleTable = require('console.table')
+// const db = require('./unit12-hw/connection')
 // const asciiart = require('asciiart');
 // const logoText = asciiart({name: "Employee Manager"}).render();
 
@@ -13,10 +14,11 @@ function addDepartment (info) {
             message: "What Department would you like to add?"
 
         }
+    
     ])
-    .then(info = () =>{
+    .then(info => {
         console.log(info)
-        db.query('INSERT INTO department (department_name) VALUE(?)',[info.department_name], function (err, results) {
+        db.query(`INSERT INTO department (department_name) VALUES(?)`,info.deptname, function (err, results) {
             console.log(results);
                 return defaultQuestions();
     }
@@ -26,10 +28,9 @@ function addDepartment (info) {
 function updateEmployeeRole () {
     return inquirer.prompt([
         {
-            type: 'list',
+            type: 'input',
             name: 'id',
-            message: "Which ID would you like to update?",
-            choices: [1, 2, 3, 4, 5, 6]
+            message: 'What is your ID?'
         },
         {
             type: 'input',
@@ -42,19 +43,11 @@ function updateEmployeeRole () {
             name: 'salary',
             message: "What is the updated salary of the employee role?"
 
-        },
-           
-        {
-            type: 'list',
-            name: 'dept_id',
-            message: "What is the updated department of the role?",
-            choices: [1, 2, 3, 4, 5]
-
         }
     ])
-    .then(info  =>{
+    .then(info => {
         console.log(info)
-            db.query('UPDATE employee_role_data (title, salary, department_id) WHERE=[info.id]', [info.title, info.salary, info.dept_id], function (err, results) {
+            db.query('UPDATE employee_role_data (title, salary) WHERE=[info.id]', [info.title, info.salary], function (err, results) {
                     console.log(results);
                         defaultQuestions();
                 });
@@ -82,11 +75,16 @@ function addEmployeeInfo() {
             choices: [1, 2, 3, 4, 5, 6]
 
         },
+        {
+            type: 'input',
+            name: 'manager_id',
+            message: "What is the manager id?"
+
+        }
     ])
-    .then(info = () =>{
-        console.log(info)
-            db.query('INSERT INTO employee_info_data (first_name, last_name, role_id) VALUE (?,?,?)', [info.first_name, info.last_name, info.role_id], function (err, results) {
-                console.log(results);
+    .then(info => {
+            db.query('INSERT INTO employee_info_data (first_name, last_name, role_id, manager_id) VALUES (?,?,?,?)', [info.first_name, info.last_name, info.role_id, info.manager_id], function (err, results) {
+                console.table(results);
                     return defaultQuestions();
     })
   })};
@@ -160,12 +158,7 @@ const db = mysql.createConnection(
                     addEmployeeInfo();
     
             }else if(userChoice.userChoice === "View Employee Roster") {
-                function viewEmployees() {
-                    db.query('Select * from employee_role_data Join employee_info_data On employee_role_data.id = employee_info_data.role_id', function (err, results) {
-                            console.table(results);
-                            defaultQuestions();
-                        });
-                    }viewEmployees()
+              viewEmployees()
 
             }else if(userChoice.userChoice === "Update an Employee Role") {
                      updateEmployeeRole();
@@ -199,3 +192,10 @@ const db = mysql.createConnection(
         })
     }
 defaultQuestions();
+function viewEmployees() {
+    db.query('Select * from employee_role_data Join employee_info_data On employee_role_data.id = employee_info_data.role_id', function (err, results) {
+            console.table(results);
+            defaultQuestions();
+        });
+    }
+    
