@@ -47,7 +47,7 @@ function updateEmployeeRole () {
     ])
     .then(info => {
         console.log(info)
-            db.query('UPDATE employee_role_data (title, salary) WHERE=[info.id]', [info.title, info.salary], function (err, results) {
+            db.query('UPDATE employee_role_data (title, salary) WHERE=[info.id]', info.title, info.salary, function (err, results) {
                     console.log(results);
                         defaultQuestions();
                 });
@@ -143,7 +143,8 @@ const db = mysql.createConnection(
                 name: "userChoice",
                 message: "What would you like to do?",
                 choices: ["View Employee Roster", 
-                    "Add Employee to Roster", 
+                    "Add Employee to Roster",
+                    "View Employee Information", 
                     "Update an Employee Role", 
                     "View all Roles in Department", 
                     "Add a Role", 
@@ -157,7 +158,15 @@ const db = mysql.createConnection(
             if(userChoice.userChoice === "Add Employee to Roster") {
                     addEmployeeInfo();
     
-            }else if(userChoice.userChoice === "View Employee Roster") {
+            }else if(userChoice.userChoice === "View Employee Information") {
+                function viewEmployeeInformation() {
+                    db.query('SELECT * FROM employee_info_data', function (err, results) {
+                            console.table(results);
+                            defaultQuestions();
+                        });
+                    }viewEmployeeInformation();
+            }
+            else if(userChoice.userChoice === "View Employee Roster") {
               viewEmployees()
 
             }else if(userChoice.userChoice === "Update an Employee Role") {
