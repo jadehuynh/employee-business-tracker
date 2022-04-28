@@ -25,35 +25,7 @@ function addDepartment (info) {
     )
 })};
 
-function updateEmployeeRole () {
-    return inquirer.prompt([
-        {
-            type: 'input',
-            name: 'id',
-            message: 'What is your ID?'
-        },
-        {
-            type: 'input',
-            name: 'title',
-            message: "What is the updated employee role?"
 
-        },
-        {
-            type: 'input',
-            name: 'salary',
-            message: "What is the updated salary of the employee role?"
-
-        }
-    ])
-    .then(info => {
-        console.log(info)
-            db.query('UPDATE employee_role_data (title, salary) WHERE=[info.id]', info.title, info.salary, function (err, results) {
-                    console.log(results);
-                        defaultQuestions();
-                });
-            
-    })
-};
 function addEmployeeInfo() {
     return inquirer.prompt([
         {
@@ -149,7 +121,7 @@ const db = mysql.createConnection(
                     "View all Roles in Department", 
                     "Add a Role", 
                     "View all Departments", 
-                    "Add a New Department", 
+                    "Add a New Department",
                     "Quit"]
             }
         ])
@@ -193,7 +165,7 @@ const db = mysql.createConnection(
 
             }else if(userChoice.userChoice === "Add a New Department") {
                 addDepartment();
-                 
+
             }else(userChoice.userChoice === "Quit") 
                 return
             
@@ -208,3 +180,32 @@ function viewEmployees() {
         });
     }
     
+    function updateEmployeeRole () {
+        return inquirer.prompt([
+            {
+                type: 'input',
+                name: 'id',
+                message: 'What is your ID?'
+            },
+            {
+                type: 'input',
+                name: 'title',
+                message: "What is the updated employee role?"
+    
+            },
+            {
+                type: 'input',
+                name: 'salary',
+                message: "What is the updated salary of the employee role?"
+    
+            }
+        ])
+        .then(info => {
+            console.log(info)
+                db.query('UPDATE employee_role_data SET id=?, title=?, salary=? WHERE=[info.id]', [info.title, info.salary], function (err, results) {
+                        console.log(results);
+                           return defaultQuestions();
+                    });
+                
+        })
+    };
