@@ -202,10 +202,10 @@ function viewEmployees() {
         ])
         .then(info => {
             console.log(info)
-                db.query('UPDATE employee_role_data SET id=?, title=?, salary=? WHERE=[info.id]', [info.title, info.salary], function (err, results) {
+                db.query('UPDATE employee_role_data SET title=?, salary=? WHERE id=?', [info.title, info.salary, info.id], function (err, results) {
                         console.log(results);
-                           return defaultQuestions();
+                            
                     });
-                
+                    return defaultQuestions();
         })
     };
