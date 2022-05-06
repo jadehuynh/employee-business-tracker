@@ -24,7 +24,7 @@
 * DOTENV
 
 ## [GitHub Repository Link](https://github.com/jadehuynh/employee-business-tracker)
-## [Live Video Link](https://youtu.be/j5tvZv7GkXg)
+## [Live Video Link](https://youtu.be/-6dNSefL1kc)
 ----
 ## Employee Business Tracker Image
 
